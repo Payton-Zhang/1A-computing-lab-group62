@@ -1,23 +1,20 @@
 from floodsystem.plot import plot_water_level_with_fit
 from floodsystem.datafetcher import fetch_measure_levels
-from floodsystem.stationdata import build_station_list
+from floodsystem.stationdata import build_station_list, update_water_levels
 import matplotlib.pyplot as plt
 import datetime
-
+from floodsystem.flood import stations_highest_rel_level
 
 stations = build_station_list()
-station = stations[6]
+update_water_levels(stations)
+stations = stations_highest_rel_level(stations, 6)
 
-
-dates, levels = fetch_measure_levels(station.measure_id, dt=datetime.timedelta(days=2))
-
-plot_water_level_with_fit(station, dates, levels, 4)
-plt.show()
-
-"""
 for station in stations:
-    if station.typical_range_consistent():
-        dates, levels = fetch_measure_levels(station.measure_id, dt=datetime.timedelta(days=10))
-        plot_water_level_with_fit(station, dates, levels, 4)
-        plt.show
-"""
+    dates, levels = fetch_measure_levels(station[0].measure_id, dt=datetime.timedelta(days=2))
+    if not dates:
+        print(station[0].name)
+        pass
+    else:
+        print(dates)
+        plot_water_level_with_fit(station[0], dates, levels, 4)
+        plt.show()
