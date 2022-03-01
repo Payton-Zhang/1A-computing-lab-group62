@@ -1,3 +1,7 @@
+""""
+This funtion returns an offset and an equation for the best fit line of the water level
+"""
+
 import matplotlib.pyplot as plt
 import matplotlib.dates
 import numpy
